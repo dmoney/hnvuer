@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <script src="scripts/lib/vue.js"></script>
+    <script src="scripts/lib/vue_resource_1.3.4.js"></script>
+  </head>
+  <body>
+    <div id="thing">
+      <ul>
+        <li><b>message</b>: {{message}}</li>
+        <li>
+          <b>Items: </b>
+          <ul>
+            <item-listing
+              v-for="(iid, index) in idsContainer.ids"
+              v-if="index < 20"
+              v-bind:key="index"
+              v-bind:iid = "iid"
+              >
+            </item-listing>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      function fetchIds(){
+
+      }
+
+      Vue.component('item-listing', {
+        props: ['iid'],
+        data (){
+          return {
+            itemContainer: {
+              'item': {},
+              'loaded': false
+            }
+          };
+        },
+        template: `<li v-if="!itemContainer.loaded">Loading...</li>
+                  <li v-else><a v-bind:href="itemContainer.item.url">{{itemContainer.item.title}}</a></li>`,
+        created: function(){
+          this.$http.get('https://hacker-news.firebaseio.com/v0/item/' + this.iid + '.json').then(resp => {
+            console.log(resp)
+            this.itemContainer.item = resp.data;
+            this.itemContainer.loaded = true;
+          })
+        }
+      });
+
+      // Vue.use(VueResource);
+      var v = new Vue({
+        el: "#thing",
+        data: {
+          message: "nirvana",
+          idsContainer: {ids: []}
+        },
+        created: function(){
+          this.$http.get('https://hacker-news.firebaseio.com/v0/topstories.json').then(resp => {
+            console.log(resp);
+            this.idsContainer.ids=resp.data})
+        }
+      });
+
+    </script>
+  </body>
+</html>
