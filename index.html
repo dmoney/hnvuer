@@ -4,29 +4,21 @@
     <script src="scripts/lib/vue_resource_1.3.4.js"></script>
   </head>
   <body>
+    <h1>HN Vuer</h1>
     <div id="thing">
-      <ul>
-        <li><b>message</b>: {{message}}</li>
-        <li>
-          <b>Items: </b>
-          <ul>
-            <item-listing
-              v-for="(iid, index) in idsContainer.ids"
-              v-if="index < 20"
-              v-bind:key="index"
-              v-bind:iid = "iid"
-              >
-            </item-listing>
-          </ul>
-        </li>
-      </ul>
+        <ul v-if="idsContainer.ids.length > 0">
+          <item-listing
+            v-for="(iid, index) in idsContainer.ids"
+            v-if="index < 20"
+            v-bind:key="index"
+            v-bind:iid = "iid"
+            >
+          </item-listing>
+        </ul>
+        <div v-else>Loading...</div>
     </div>
 
     <script>
-      function fetchIds(){
-
-      }
-
       Vue.component('item-listing', {
         props: ['iid'],
         data (){
@@ -48,7 +40,6 @@
         }
       });
 
-      // Vue.use(VueResource);
       var v = new Vue({
         el: "#thing",
         data: {
