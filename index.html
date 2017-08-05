@@ -30,7 +30,7 @@
           };
         },
         template: `<li v-if="!itemContainer.loaded">Loading...</li>
-                  <li v-else><a v-bind:href="itemContainer.item.url">{{itemContainer.item.title}}</a></li>`,
+                  <li v-else><a v-bind:href="itemContainer.item.url" target="_blank">{{itemContainer.item.title}}</a></li>`,
         created: function(){
           this.$http.get('https://hacker-news.firebaseio.com/v0/item/' + this.iid + '.json').then(resp => {
             console.log(resp)
