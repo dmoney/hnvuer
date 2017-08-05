@@ -1,23 +1,42 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HN Vuer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/bulma_0.5.0.css"></link>
     <script src="scripts/lib/vue.js"></script>
     <script src="scripts/lib/vue_resource_1.3.4.js"></script>
   </head>
   <body>
-    <h1>HN Vuer</h1>
-    <div>A Vue-based viewer for Hacker News</div>
-    <div id="thing">
-        <ul v-if="idsContainer.ids.length > 0">
-          <item-listing
-            v-for="(iid, index) in idsContainer.ids"
-            v-if="index < 20"
-            v-bind:key="index"
-            v-bind:iid = "iid"
-            >
-          </item-listing>
-        </ul>
-        <div v-else>Loading...</div>
+    <div class="header">
+    <div class="container">
+      <h1 class="title">
+        HN Vuer
+      </h1>
+      <p class="subtitle">
+        A Vue.js-based viewer for Hacker News
+      </p>
     </div>
+  </div>
+
+  <div class="section">
+    <div class="content">
+      <div id="thing">
+          <div v-if="idsContainer.ids.length > 0">
+            <item-listing
+              v-for="(iid, index) in idsContainer.ids"
+              v-if="index < 20"
+              v-bind:key="index"
+              v-bind:iid = "iid"
+              >
+            </item-listing>
+          </div>
+          <div v-else>Loading...</div>
+      </div>
+    </div>
+  </div>
 
     <script>
       Vue.component('item-listing', {
@@ -30,8 +49,14 @@
             }
           };
         },
-        template: `<li v-if="!itemContainer.loaded">Loading...</li>
-                  <li v-else><a v-bind:href="itemContainer.item.url" target="_blank">{{itemContainer.item.title}}</a></li>`,
+        template: `
+          <div class="card">
+            <div class="card-content">
+              <div v-if="!itemContainer.loaded" class="content">Loading...</div>
+              <div v-else class="content"><a v-bind:href="itemContainer.item.url" target="_blank">{{itemContainer.item.title}}</a></div>
+            </div>
+          </div>
+          `,
         created: function(){
           this.$http.get('https://hacker-news.firebaseio.com/v0/item/' + this.iid + '.json').then(resp => {
             console.log(resp)
@@ -55,7 +80,7 @@
       });
 
     </script>
-    <footer>
+    <footer class="footer">
       <div>by Dustin King</div>
       <div><a href="https://github.com/dmoney/hnvuer">Source code on Github</a></div>
       <div>Disclaimer: This just pulls links from
