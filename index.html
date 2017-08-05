@@ -5,6 +5,7 @@
   </head>
   <body>
     <h1>HN Vuer</h1>
+    <div>A Vue-based viewer for Hacker News</div>
     <div id="thing">
         <ul v-if="idsContainer.ids.length > 0">
           <item-listing
@@ -54,5 +55,12 @@
       });
 
     </script>
+    <footer>
+      <div>by Dustin King</div>
+      <div><a href="https://github.com/dmoney/hnvuer">Source code on Github</a></div>
+      <div>Disclaimer: This just pulls links from
+       <a href="https://news.ycombinator.com/">Hacker News</a> using their API,
+       so don't blame me if they suck or are evil.</div>
+    </footer>
   </body>
 </html>
